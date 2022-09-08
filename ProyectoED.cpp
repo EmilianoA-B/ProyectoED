@@ -14,6 +14,7 @@ void agregarDatos(struct pan datos[]);
 void ordenarArreglo(struct pan datos[]);
 void buscar(struct pan datos[]);
 void imprimir(struct pan datos[], int lp);
+void ordenar(struct pan datos[], int lp);
 int agrega(struct pan datos[], int lp);
 
 int main(){
