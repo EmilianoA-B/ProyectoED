@@ -65,7 +65,8 @@ void menu(){
     }
 
 int incializarArreglo(struct pan datos[]){    
-    string nombres[10] = {"Concha", "Dona", "Bolillo","Cuernito","Oreja","Pan de muerto","Cuernito","Ojo de Buey","Polvoron","Mantecada"}; 
+    string nombres[10] = {"Concha\t", "Dona\t\t", "Bolillo\t","Cuernito\t","Oreja\t","Pan de muerto",
+                        "Cuernito\t","Ojo de Buey\t","Polvoron\t","Mantecada\t"}; //los tabuladores son necesarios para la correcta impresion
     int i;
     for (i = 0; i < 10; i++)
     {
@@ -101,8 +102,9 @@ int agrega(struct pan datos[], int lp){
 
 void imprimir(struct pan datos[], int lp){
     for(int i = 0; i <lp; i++){
-        cout << "Nombre: " << datos[i].nombre << "\t|";
-        cout << "Existencia: " << datos[i].cantidad <<"\t| ";
-        cout << "Precio: " << datos[i].precio << "\t|" <<endl;
+        cout << "Nombre:    " << datos[i].nombre << "|";
+        cout << "Existencia:    " << datos[i].cantidad <<"\t| ";
+        cout << "Precio:    " << datos[i].precio << "\t|" <<endl;
     }
+    cout << endl;
 }
