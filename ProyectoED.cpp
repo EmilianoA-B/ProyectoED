@@ -54,6 +54,14 @@ int main(){
     }
 }
 
+void menuOrdenar(){
+    cout<<"Ordenar:\n\n"<<
+        "\t1. Alfabeticamente\n"<<
+        "\t2. Por existencia\n"<<
+        "\t3. Por precio (Mayor a menor)\n"<<
+        "\t4. Por precio (Menos a mayor)\n"<<endl;
+}
+
 void menu(){
     cout<<"Panaderia\n\n"<<
         "\t1. Agregar\n"<<
