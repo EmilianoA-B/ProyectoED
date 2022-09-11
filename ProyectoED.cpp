@@ -77,7 +77,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
 	
 	string minN, auxN;
         int auxC, minC, auxP, minP;
-        int pos;
+        int pos=0;
         cout << lp;
         for(int i = 0; i < lp; i++)
         {
@@ -154,8 +154,8 @@ void menu(){
     }
 
 int incializarArreglo(struct pan datos[]){    
-    string nombres[10] = {"Concha\t", "Dona\t\t", "Bolillo\t","Cuernito\t","Oreja\t","Pan de muerto",
-                        "Cuernito\t","Ojo de Buey\t","Polvoron\t","Mantecada\t"}; //los tabuladores son necesarios para la correcta impresion
+    string nombres[10] = {"Concha\t", "Dona\t\t", "Bolillo\t","Baguette\t","Oreja\t","Pan de muerto",
+                        "Cuernito\t","Ojo de Buey\t","Polvoron\t","Mantecada\t"}; //Los tabuladores son necesarios para la correcta impresion
     int i;
     for (i = 0; i < 10; i++)
     {
@@ -163,7 +163,7 @@ int incializarArreglo(struct pan datos[]){
         datos[i].cantidad = 1+rand()%80;
         datos[i].nombre = nombres[i];
     }
-    return i;
+    return i-1;
 }
 
 int agrega(struct pan datos[], int lp){
@@ -190,7 +190,7 @@ int agrega(struct pan datos[], int lp){
 }
 
 void imprimir(struct pan datos[], int lp){
-    for(int i = 0; i <lp; i++){
+    for(int i = 0; i <=lp; i++){
         cout << "[" << i + 1 << "]  " << "\tNombre:    " << datos[i].nombre << "|";
         cout << "Existencia:    " << datos[i].cantidad <<"\t| ";
         cout << "Precio:    " << datos[i].precio << "\t|" <<endl;
