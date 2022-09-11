@@ -4,10 +4,16 @@
 using namespace std;
 
 struct pan{
-    int cantidad;
+    int cantidad ;
     float precio;
     string nombre;
 };
+
+struct panV: pan{
+    static float total;
+};
+
+float panV::total = 0;
 
 void menu();
 int incializarArreglo(struct pan datos[]);
@@ -17,11 +23,13 @@ void menuOrdenar(int opc, struct pan datos[], int lp);
 void buscar(struct pan datos[], int lp);
 int agrega(struct pan datos[], int lp);
 void insersionBinaria(int, struct pan datos[], int lp);
-void InsBinCant(int, struct pan datos[], int lp);
+void InsBinCant(int, struct pan datos[], int lp); // Esta para que sirve?
+int vender(struct pan datos[], struct panV carrito[], int lp,int carLp);
+void ticket(struct panV carrito[], int carLp);
 
 int main(){
-    int ultArr;
-    pan datos[50];
+    int ultArr, ultCarr = 0;
+    pan datos[20]; panV carrito[10];
     ultArr = incializarArreglo(datos);
 
     while(1){
@@ -29,12 +37,16 @@ int main(){
         menu();
         cin>>opc;
         switch(opc){
+
+            case 0:
+            exit(0);
+            
             case 1:
                 ultArr=agrega(datos,ultArr);
             break;
 
             case 2: //Venta
-
+                ultCarr = vender(datos, carrito, ultArr, ultCarr);
             break;
 
             case 3: //Ordenar
@@ -49,9 +61,64 @@ int main(){
                 imprimir(datos,ultArr);
             break;
 
+            case 6: //Imprimir ticket
+                ticket(carrito,ultCarr);
+            break;
+
             default:
             cout<< "Eleccion incorrecta"<<endl;
         }
+    }
+}
+
+int vender(struct pan datos[],struct panV carrito[],int lp, int carLp){
+    int elecc = 0, exisElec = 0;
+    if(carLp < 10){
+        cout << "¿Que desea ordenar?"<<endl;
+        imprimir(datos, lp);
+        cout<<endl;
+        cin>>elecc;
+        if(elecc > lp + 1 || elecc <= 0){
+            while(elecc > lp + 1 || elecc <= 0){
+                cout<<"Elige una opcion correcta: "<<endl;
+                cin>>elecc;
+            }
+        }
+        cout<<"¿Cuantos panes quiere?"<<endl;
+        cin>>exisElec;
+
+        datos[elecc-1].cantidad = datos[elecc-1].cantidad - exisElec; // Resta de la existencia actual
+        //Agrega items al carrito
+        carrito[carLp].nombre = datos[elecc-1].nombre; 
+        carrito[carLp].cantidad = exisElec;
+        carrito[carLp].precio = exisElec * datos[elecc-1].precio;
+        panV::total = carrito[carLp].precio + panV::total;
+
+        carLp++; //Ultimo indice del arreglo carrito
+        
+        cout<<"¿Quiere agregar mas? \n\n 1. Si 2. No"<<endl;
+        elecc = 0;
+        cin>>elecc;
+        if(elecc == 1){
+            vender(datos,carrito,lp,carLp);
+        }
+        return carLp;
+    }else{
+        cout<<"Tu carrito esta lleno!"<<endl;
+    }
+    return carLp;
+}
+
+void ticket(struct panV carrito[], int carLp){
+   
+    if(carLp > 0 && carLp < 10){
+        cout<<"     TICKET      \n"<<endl;
+        for(int i = 0;i < carLp; i++){
+            cout<<"["<<i +1<<"] - " << carrito[i].nombre << "  x  "<<carrito[i].cantidad << " -   "<<carrito[i].precio<<"$"<<endl;
+        }
+        cout<<"\nTotal: "<<panV::total<<"$\n"<<endl;
+    }else{
+        cout << "Tu carrito esta vacio!" <<endl;
     }
 }
 
@@ -61,7 +128,7 @@ void menuOrdenar(int opc, struct pan datos[], int lp){
         "\t2. Por existencia\n"<<
         "\t3. Por precio (Mayor a menor)\n"<<
         "\t4. Por precio (Menos a mayor)\n\n"<<
-        "0. Salir\n\n Selecciona la opcion: ";
+        "0. Salir\n\nSelecciona la opcion: ";
     cin >> opc;
    while (opc > 4)
    {
@@ -78,7 +145,6 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
 	string minN, auxN;
         int auxC, minC, auxP, minP;
         int pos=0;
-        cout << lp;
         for(int i = 0; i < lp; i++)
         {
             minN = datos[i].nombre;
@@ -86,7 +152,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
             minC = datos[i].cantidad;
             auxC = datos[i].cantidad;
             minP = datos[i].precio;
-            minP = datos[i].precio;
+            auxP = datos[i].precio;
             for(int j = i + 1; j <= lp; j ++)
             {
                 switch (opc)
@@ -139,7 +205,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
             datos[i].precio = minP;
             
         }
-        cout << "Inventario ordenado por nombre\n\n";
+        cout << "Inventario ordenado\n\n";
 }
 
 
@@ -149,7 +215,8 @@ void menu(){
         "\t2. Vender\n"<<
         "\t3. Ordenar\n"<<
         "\t4. Buscar\n"<<
-        "\t5. Imprimir inventario\n\n"<<
+        "\t5. Imprimir inventario\n"<<
+        "\t6. Ticket\n\n"<<
         "0. Salir\n\n Selecciona la opcion: "<<endl;
     }
 
