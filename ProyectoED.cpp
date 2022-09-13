@@ -155,11 +155,13 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
             auxP = datos[i].precio;
             for(int j = i + 1; j <= lp; j ++)
             {
+                bool band = false;
                 switch (opc)
                 {
                 case 1:
                     if (datos[j].nombre < minN)
                     {
+                        band = true;
                         minN = datos[j].nombre;
                         minC = datos[j].cantidad;
                         minP = datos[j].precio;
@@ -171,6 +173,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
                 case 2:
                     if (datos[j].cantidad > minC)
                     {
+                        band = true;
                         minN = datos[j].nombre;
                         minC = datos[j].cantidad;
                         minP = datos[j].precio;
@@ -180,6 +183,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
                 case 3:
                     if (datos[j].precio > minP)
                     {
+                        band = true;
                         minN = datos[j].nombre;
                         minC = datos[j].cantidad;
                         minP = datos[j].precio;
@@ -189,6 +193,7 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
                 case 4:
                     if (datos[j].precio < minP)
                     {
+                        band = true;
                         minN = datos[j].nombre;
                         minC = datos[j].cantidad;
                         minP = datos[j].precio;
@@ -196,13 +201,18 @@ void insersionBinaria(int opc, struct pan datos[], int lp){
                     }
                     break;
                 }
+                if(j == lp && band ==true){
+                    datos[pos].nombre = auxN;
+                    datos[i].nombre = minN;
+
+                    datos[pos].cantidad = auxC;
+                    datos[i].cantidad = minC;
+
+                    datos[pos].precio = auxP;
+                    datos[i].precio = minP;
+                }
             }
-            datos[pos].nombre = auxN;
-            datos[i].nombre = minN;
-            datos[pos].cantidad = auxC;
-            datos[i].cantidad = minC;
-            datos[pos].precio = auxP;
-            datos[i].precio = minP;
+            
             
         }
         cout << "Inventario ordenado\n\n";
